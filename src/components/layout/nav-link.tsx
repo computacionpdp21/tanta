@@ -19,7 +19,7 @@ export function AppNavLink({
   onNavigate,
   end,
 }: AppNavLinkProps) {
-  const exact = end ?? to === "/pedidos";
+  const exact = end ?? (to === "/pedidos" || to === "/");
 
   if (variant === "bottom") {
     return (
@@ -29,7 +29,7 @@ export function AppNavLink({
         onClick={onNavigate}
         className={({ isActive }) =>
           cn(
-            "flex min-h-12 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-xl px-1 text-[11px] font-medium transition-colors",
+            "flex min-h-12 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-xl px-1 text-[11px] font-medium transition-colors duration-200",
             isActive
               ? "text-primary"
               : "text-muted-foreground hover:text-foreground",
@@ -40,8 +40,8 @@ export function AppNavLink({
           <>
             <span
               className={cn(
-                "flex size-8 items-center justify-center rounded-lg transition-colors",
-                isActive && "bg-secondary",
+                "flex size-8 items-center justify-center rounded-lg transition-colors duration-200",
+                isActive && "bg-accent/20 text-accent-foreground",
               )}
             >
               <Icon className="size-5" aria-hidden="true" strokeWidth={isActive ? 2.4 : 2} />
@@ -60,9 +60,9 @@ export function AppNavLink({
       onClick={onNavigate}
       className={({ isActive }) =>
         cn(
-          "flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors",
+          "relative flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors duration-200",
           isActive
-            ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm"
+            ? "bg-accent/18 text-accent before:absolute before:top-1.5 before:bottom-1.5 before:left-0 before:w-[3px] before:rounded-full before:bg-accent"
             : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
         )
       }

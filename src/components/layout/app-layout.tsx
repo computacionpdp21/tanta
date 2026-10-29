@@ -12,6 +12,10 @@ import { APP_NAME } from "@/lib/constants";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
 const TITLES: Record<string, { title: string; description: string }> = {
+  "/": {
+    title: "Inicio",
+    description: "El pulso del horno, de un vistazo.",
+  },
   "/pedidos": {
     title: "Pedidos",
     description: "Lista del día, producción y saldos por cobrar.",
@@ -91,7 +95,7 @@ export function AppLayout() {
             <code className="font-semibold">VITE_SUPABASE_PUBLISHABLE_KEY</code>.
           </div>
         ) : null}
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-5 lg:px-8 lg:py-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] lg:pb-8">
+        <main className="route-fade mx-auto w-full max-w-6xl flex-1 px-4 py-5 lg:px-8 lg:py-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] lg:pb-8">
           <ErrorBoundary key={pathname} compact>
             <Outlet />
           </ErrorBoundary>

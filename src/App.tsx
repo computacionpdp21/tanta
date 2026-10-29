@@ -6,7 +6,7 @@ import { RouteError } from "@/components/route-error";
 import { Toaster } from "@/components/ui/sonner";
 import { ProtectedRoute } from "@/features/auth/protected-route";
 import { RoleGate } from "@/features/auth/role-gate";
-import { RoleHomeRedirect } from "@/features/auth/role-home-redirect";
+import { InicioPage } from "@/routes/inicio";
 import {
   ROLES_CATALOGO,
   ROLES_ENTREGAS,
@@ -57,7 +57,14 @@ const router = createBrowserRouter([
           {
             element: <AppLayout />,
             children: [
-              { index: true, element: <RoleHomeRedirect /> },
+              {
+                index: true,
+                element: (
+                  <RoleGate roles={ROLES_VER_PEDIDOS}>
+                    <InicioPage />
+                  </RoleGate>
+                ),
+              },
               {
                 path: "pedidos",
                 element: (

@@ -30,16 +30,6 @@ export function puede(
 }
 
 export function rutaInicio(rol: RolUsuario): string {
-  switch (rol) {
-    case "admin":
-      return "/resumen";
-    case "vendedor":
-      return "/pedidos/nuevo";
-    case "operativo":
-      return "/pedidos";
-    case "produccion":
-      return "/produccion";
-    case "entregas":
-      return "/entregas";
-  }
+  void rol;
+  return "/";
 }

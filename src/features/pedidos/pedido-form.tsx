@@ -2,7 +2,20 @@ import { useEffect, useMemo, useState } from "react";
 import { useBlocker, useNavigate } from "react-router-dom";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CopyPlus, LoaderCircle, Minus, Plus, Trash2 } from "lucide-react";
+import {
+  Check,
+  CopyPlus,
+  LoaderCircle,
+  Minus,
+  Package,
+  Plus,
+  Store,
+  Trash2,
+  Truck,
+  UserRound,
+  Wallet,
+  type LucideIcon,
+} from "lucide-react";
 import { toast } from "sonner";
 import { ExitoDialog } from "@/features/pedidos/exito-dialog";
 import { ProductPicker } from "@/features/pedidos/product-picker";
@@ -45,6 +58,26 @@ const ITEM_VACIO: PedidoFormValues["items"][number] = {
   precio_unitario: 0,
   notas_item: "",
 };
+
+function SectionHeading({
+  n,
+  icon: Icon,
+  children,
+}: {
+  n: number;
+  icon: LucideIcon;
+  children: string;
+}) {
+  return (
+    <h2 data-section-title className="font-display flex items-center gap-2 text-lg font-semibold">
+      <span className="bg-accent/20 text-accent-foreground flex size-8 items-center justify-center rounded-full text-sm font-bold tabular-nums">
+        {n}
+      </span>
+      <Icon className="size-4" aria-hidden="true" />
+      {children}
+    </h2>
+  );
+}
 
 function defaultsFromPedido(pedido: PedidoCompleto | null): PedidoFormValues {
   if (!pedido) {
@@ -124,6 +157,7 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
   const total = subtotal + envio;
   const adelanto = Number(values.adelanto || 0);
   const saldo = total - adelanto;
+  const telefonoOk = Boolean(normalizarTelefonoBO(values.cliente_telefono ?? ""));
 
   const dirty = form.formState.isDirty && !saved;
   const blocker = useBlocker(dirty);
@@ -230,9 +264,12 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
 
   return (
     <>
-      <form className="space-y-6 pb-36" onSubmit={form.handleSubmit(onSubmit)} noValidate>
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-start lg:gap-6">
+      <form className="space-y-6 pb-36 lg:pb-8" onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <section className="bg-card space-y-4 rounded-2xl border p-4">
-          <h2 className="font-display text-lg font-semibold">Cliente</h2>
+          <SectionHeading n={1} icon={UserRound}>
+            Cliente
+          </SectionHeading>
           <div className="space-y-2">
             <Label htmlFor="cliente_nombre">Nombre</Label>
             <Input
@@ -265,6 +302,11 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
                 aria-invalid={Boolean(form.formState.errors.cliente_telefono)}
                 aria-describedby="cliente_telefono-error"
               />
+              {telefonoOk ? (
+                <span className="text-success flex h-11 items-center rounded-r-xl border border-l-0 border-input px-3">
+                  <Check className="size-4" aria-label="Teléfono válido" />
+                </span>
+              ) : null}
             </div>
             <p className="text-muted-foreground text-xs">8 dígitos, empieza con 6 o 7. Puedes pegar +591.</p>
             <FieldError
@@ -276,7 +318,9 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
 
         <section className="space-y-3">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="font-display text-lg font-semibold">Productos</h2>
+            <SectionHeading n={2} icon={Package}>
+              Productos
+            </SectionHeading>
             <Button type="button" variant="outline" onClick={() => append({ ...ITEM_VACIO })}>
               <Plus className="size-4" />
               Agregar ítem
@@ -412,7 +456,9 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
         </section>
 
         <section className="bg-card space-y-4 rounded-2xl border p-4">
-          <h2 className="font-display text-lg font-semibold">Entrega</h2>
+          <SectionHeading n={3} icon={Truck}>
+            Entrega
+          </SectionHeading>
           <Controller
             control={form.control}
             name="tipo_entrega"
@@ -424,12 +470,13 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
                     type="button"
                     onClick={() => field.onChange(tipo)}
                     className={cn(
-                      "min-h-14 rounded-2xl border-2 px-3 text-sm font-semibold",
+                      "flex min-h-14 items-center justify-center gap-2 rounded-2xl border-2 px-3 text-sm font-semibold transition-colors duration-200",
                       field.value === tipo
-                        ? "border-primary bg-secondary text-secondary-foreground"
+                        ? "border-accent bg-accent text-accent-foreground"
                         : "border-border bg-background",
                     )}
                   >
+                    {tipo === "recojo" ? <Store className="size-4" /> : <Truck className="size-4" />}
                     {tipo === "recojo" ? "Recojo en tienda" : "Envío"}
                   </button>
                 ))}
@@ -481,7 +528,7 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
                 <Button
                   key={atajo.label}
                   type="button"
-                  variant={values.fecha_entrega === atajo.value ? "default" : "outline"}
+                  variant={values.fecha_entrega === atajo.value ? "accent" : "outline"}
                   onClick={() => form.setValue("fecha_entrega", atajo.value, { shouldDirty: true })}
                 >
                   {atajo.label}
@@ -502,7 +549,9 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
         </section>
 
         <section className="bg-card space-y-4 rounded-2xl border p-4">
-          <h2 className="font-display text-lg font-semibold">Pago</h2>
+          <SectionHeading n={4} icon={Wallet}>
+            Pago
+          </SectionHeading>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="adelanto">Adelanto (Bs)</Label>
@@ -560,7 +609,65 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
         </section>
       </form>
 
-      <div className="border-border bg-card/95 supports-backdrop-filter:bg-card/90 fixed inset-x-0 bottom-[calc(4.25rem+env(safe-area-inset-bottom))] z-30 border-t px-4 py-3 shadow-[0_-8px_24px_rgba(61,36,18,0.08)] backdrop-blur-md dark:shadow-[0_-8px_24px_rgba(0,0,0,0.35)] lg:bottom-0 lg:left-64">
+      <aside className="hidden lg:block">
+        <div className="sticky top-28 space-y-4 rounded-2xl border bg-card p-4 shadow-sm">
+          <h2 className="font-display text-lg font-semibold">Resumen del pedido</h2>
+          <ul className="space-y-2 text-sm">
+            {itemsForm.map((item, index) => (
+              <li key={index} className="flex justify-between gap-2">
+                <span className="min-w-0 truncate">
+                  {item.cantidad || 0} × {etiquetaProducto(item)}
+                </span>
+                <span className="whitespace-nowrap tabular-nums">
+                  {formatBs(Number(item.cantidad || 0) * Number(item.precio_unitario || 0))}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <dl className="space-y-1 border-t pt-3 text-sm">
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Subtotal</dt>
+              <dd className="tabular-nums">{formatBs(subtotal)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Envío</dt>
+              <dd className="tabular-nums">{formatBs(envio)}</dd>
+            </div>
+            <div className="flex justify-between font-semibold">
+              <dt>Total</dt>
+              <dd className="tabular-nums">{formatBs(total)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Anticipo</dt>
+              <dd className="tabular-nums">{formatBs(adelanto)}</dd>
+            </div>
+            <div className="flex justify-between font-semibold">
+              <dt>Saldo</dt>
+              <dd className="tabular-nums">{formatBs(saldo)}</dd>
+            </div>
+          </dl>
+          <Button
+            type="button"
+            variant="accent"
+            size="lg"
+            className="w-full"
+            disabled={guardar.isPending}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            {guardar.isPending ? (
+              <>
+                <LoaderCircle className="size-4 animate-spin" />
+                Guardando…
+              </>
+            ) : (
+              "Guardar pedido"
+            )}
+          </Button>
+        </div>
+      </aside>
+      </div>
+
+      <div className="border-border bg-card/95 supports-backdrop-filter:bg-card/90 fixed inset-x-0 bottom-[calc(4.25rem+env(safe-area-inset-bottom))] z-30 border-t px-4 py-3 shadow-[0_-8px_24px_rgba(61,36,18,0.08)] backdrop-blur-md dark:shadow-[0_-8px_24px_rgba(0,0,0,0.35)] lg:hidden">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <dl className="grid grid-cols-2 gap-x-6 gap-y-1 text-sm sm:grid-cols-4">
             <div>

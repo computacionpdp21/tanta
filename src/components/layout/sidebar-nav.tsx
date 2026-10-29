@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { BrandMark } from "@/components/brand-mark";
 import { AppNavLink } from "@/components/layout/nav-link";
 import { SignOutButton } from "@/components/layout/sign-out-button";
@@ -14,9 +15,11 @@ export function SidebarNav() {
   const secondary = SECONDARY_NAV.filter((item) => puede(rol, item.roles));
 
   return (
-    <aside className="bg-sidebar text-sidebar-foreground border-sidebar-border sticky top-0 hidden h-dvh w-64 shrink-0 flex-col overflow-y-auto border-r lg:flex no-print">
+    <aside className="text-sidebar-foreground sticky top-0 hidden h-dvh w-64 shrink-0 flex-col overflow-y-auto border-r border-sidebar-border lg:flex no-print bg-[linear-gradient(180deg,#4B2E1A_0%,#3A2212_100%)] dark:bg-[#120C07] dark:bg-none">
       <div className="px-4 py-5">
-        <BrandMark />
+        <Link to="/" aria-label="Ir al inicio">
+          <BrandMark />
+        </Link>
       </div>
       <nav aria-label="Principal" className="flex flex-1 flex-col gap-1 px-3">
         {primary.map((item) => (
@@ -24,8 +27,8 @@ export function SidebarNav() {
         ))}
         {secondary.length > 0 ? (
           <>
-            <Separator className="my-3" />
-            <p className="text-muted-foreground px-3 pb-1 text-[11px] font-semibold tracking-wider uppercase">
+            <Separator className="my-3 bg-white/10" />
+            <p className="px-3 pb-1 text-[11px] font-semibold tracking-wider text-white/55 uppercase">
               Administración
             </p>
             {secondary.map((item) => (

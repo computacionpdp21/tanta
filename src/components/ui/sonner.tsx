@@ -11,6 +11,7 @@ function Toaster({ ...props }: ToasterProps) {
       position="top-center"
       richColors
       closeButton
+      duration={4200}
       toastOptions={{
         classNames: {
           toast:

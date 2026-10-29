@@ -4,97 +4,100 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #fbf5e9;
-  --foreground: #4b2e1a;
+  --background: #f7eedc;
+  --foreground: #3a2212;
   --card: #fffdf8;
-  --card-foreground: #4b2e1a;
+  --card-foreground: #3a2212;
   --popover: #fffdf8;
-  --popover-foreground: #4b2e1a;
+  --popover-foreground: #3a2212;
   --primary: #4b2e1a;
-  --primary-foreground: #fbf5e9;
-  --secondary: #f3e6cf;
-  --secondary-foreground: #4b2e1a;
-  --muted: #f3e6cf;
-  --muted-foreground: #7a5a3d;
+  --primary-foreground: #f7eedc;
+  --primary-hover: #7a4a21;
+  --secondary: #fbf3e3;
+  --secondary-foreground: #3a2212;
+  --muted: #fbf3e3;
+  --muted-foreground: #7a6048;
   --accent: #d9983a;
-  --accent-foreground: #4b2e1a;
+  --accent-foreground: #2a1a0c;
   --destructive: #c0392b;
   --destructive-foreground: #fffdf8;
-  --border: #e8d4b5;
-  --input: #e8d4b5;
+  --border: #e8d9bc;
+  --input: #e8d9bc;
   --ring: #d9983a;
   --chart-1: #d9983a;
   --chart-2: #7a4a21;
   --chart-3: #2e9e5b;
   --chart-4: #3b82f6;
   --chart-5: #8b7b6b;
-  --radius: 0.9rem;
+  --radius: 1rem;
   --sidebar: #4b2e1a;
-  --sidebar-foreground: #fbf5e9;
+  --sidebar-foreground: #f6ecda;
   --sidebar-primary: #d9983a;
-  --sidebar-primary-foreground: #4b2e1a;
+  --sidebar-primary-foreground: #2a1a0c;
   --sidebar-accent: #5c3b24;
-  --sidebar-accent-foreground: #fbf5e9;
-  --sidebar-border: #5c3b24;
+  --sidebar-accent-foreground: #f6ecda;
+  --sidebar-border: #3a2212;
   --sidebar-ring: #d9983a;
   --success: #2e9e5b;
   --success-foreground: #f3faf6;
   --warning: #d9983a;
-  --warning-foreground: #4b2e1a;
+  --warning-foreground: #2a1a0c;
   --info: #3b82f6;
   --info-foreground: #f4f8fc;
   --whatsapp: #128c4a;
   --whatsapp-foreground: #ffffff;
-  --estado-pendiente: #3b82f6;
-  --estado-produccion: #d9983a;
-  --estado-listo: #2e9e5b;
-  --estado-entregado: #8b7b6b;
-  --estado-deuda: #c0392b;
+  --surface-2: #fbf3e3;
+  --surface-3: #f3e6cf;
+  --header-offset: 7.5rem;
   --shadow-warm: 0 8px 24px rgba(75, 46, 26, 0.08);
 }
 
 .dark {
-  --background: #1a120c;
-  --foreground: #f6ead8;
-  --card: #241810;
-  --card-foreground: #f6ead8;
-  --popover: #241810;
-  --popover-foreground: #f6ead8;
-  --primary: #d9983a;
-  --primary-foreground: #1a120c;
-  --secondary: #3a2818;
-  --secondary-foreground: #f6ead8;
-  --muted: #3a2818;
-  --muted-foreground: #cbb59a;
-  --accent: #d9983a;
-  --accent-foreground: #1a120c;
+  --background: #17100a;
+  --foreground: #f6ecda;
+  --card: #231812;
+  --card-foreground: #f6ecda;
+  --popover: #231812;
+  --popover-foreground: #f6ecda;
+  --primary: #e8aa4c;
+  --primary-foreground: #2a1a0c;
+  --primary-hover: #f0c06a;
+  --secondary: #2e2017;
+  --secondary-foreground: #f6ecda;
+  --muted: #2e2017;
+  --muted-foreground: #c8b596;
+  --accent: #e8aa4c;
+  --accent-foreground: #2a1a0c;
   --destructive: #e06a5c;
-  --destructive-foreground: #1a120c;
-  --border: #4a3424;
-  --input: #4a3424;
-  --ring: #d9983a;
-  --chart-1: #d9983a;
+  --destructive-foreground: #2a1a0c;
+  --border: rgba(243, 230, 207, 0.14);
+  --input: rgba(243, 230, 207, 0.18);
+  --ring: #e8aa4c;
+  --chart-1: #e8aa4c;
   --chart-2: #e6c9a0;
   --chart-3: #5dae86;
   --chart-4: #6ea0d4;
   --chart-5: #cbb59a;
-  --sidebar: #1f1510;
-  --sidebar-foreground: #f6ead8;
-  --sidebar-primary: #d9983a;
-  --sidebar-primary-foreground: #1a120c;
-  --sidebar-accent: #3a2818;
-  --sidebar-accent-foreground: #f6ead8;
-  --sidebar-border: #4a3424;
-  --sidebar-ring: #d9983a;
+  --sidebar: #120c07;
+  --sidebar-foreground: #f6ecda;
+  --sidebar-primary: #e8aa4c;
+  --sidebar-primary-foreground: #2a1a0c;
+  --sidebar-accent: #2e2017;
+  --sidebar-accent-foreground: #f6ecda;
+  --sidebar-border: rgba(243, 230, 207, 0.14);
+  --sidebar-ring: #e8aa4c;
   --success: #5dae86;
   --success-foreground: #0f241c;
-  --warning: #e0c15a;
-  --warning-foreground: #1a120c;
+  --warning: #e8aa4c;
+  --warning-foreground: #2a1a0c;
   --info: #6ea0d4;
   --info-foreground: #0f1c2c;
   --whatsapp: #25d366;
   --whatsapp-foreground: #0b1f12;
-  --shadow-warm: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --surface-2: #2e2017;
+  --surface-3: #3a2a1e;
+  --header-offset: 7.5rem;
+  --shadow-warm: 0 0 0 1px rgba(243, 230, 207, 0.14), 0 10px 28px rgba(0, 0, 0, 0.28);
 }
 
 @theme inline {
@@ -140,15 +143,17 @@
   --color-info-foreground: var(--info-foreground);
   --color-whatsapp: var(--whatsapp);
   --color-whatsapp-foreground: var(--whatsapp-foreground);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
 
   html {
@@ -160,8 +165,15 @@
     color-scheme: dark;
   }
 
+  html,
   body {
-    @apply bg-background font-sans text-foreground antialiased;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+
+  body {
+    @apply bg-background font-sans text-base text-foreground antialiased;
     background-image:
       radial-gradient(ellipse at top, rgba(217, 152, 58, 0.08), transparent 55%),
       radial-gradient(circle at 20% 80%, rgba(75, 46, 26, 0.04), transparent 40%);
@@ -174,8 +186,34 @@
     font-family: var(--font-display);
   }
 
+  h1 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-ring;
+    outline: 3px solid color-mix(in oklab, var(--ring) 35%, transparent);
+    outline-offset: 2px;
+  }
+
+  label,
+  h1,
+  h2,
+  h3,
+  [data-section-title] {
+    scroll-margin-top: calc(var(--header-offset) + 0.75rem);
+  }
+
+  @media (min-width: 1024px) {
+    :root,
+    .dark {
+      --header-offset: 5.5rem;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -198,16 +236,25 @@
   .lift-card {
     transition:
       transform 200ms ease,
-      box-shadow 200ms ease;
+      box-shadow 200ms ease,
+      border-color 200ms ease;
   }
 
   .lift-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-warm);
+    border-color: color-mix(in oklab, var(--accent) 55%, var(--border));
   }
 
   .press-scale {
-    transition: transform 120ms ease;
+    transition:
+      transform 120ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .press-scale:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-warm);
   }
 
   .press-scale:active {
@@ -216,6 +263,10 @@
 
   .fade-up {
     animation: fade-up 280ms ease both;
+  }
+
+  .route-fade {
+    animation: fade-up 180ms ease both;
   }
 
   .shimmer {
@@ -227,6 +278,23 @@
     );
     background-size: 200% 100%;
     animation: shimmer 1.4s ease infinite;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .option-gold {
+    @apply border-accent bg-accent text-accent-foreground;
+  }
+
+  .sticky-group {
+    position: sticky;
+    top: var(--header-offset);
+    z-index: 10;
+    background: color-mix(in oklab, var(--background) 92%, transparent);
+    backdrop-filter: blur(8px);
+    padding-block: 0.4rem;
   }
 }
 
@@ -262,8 +330,35 @@
   }
 }
 
+@keyframes gold-flash {
+  0% {
+    background-color: color-mix(in oklab, var(--accent) 32%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes hero-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
 .live-dot {
   animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+.row-flash {
+  animation: gold-flash 2s ease;
+}
+
+.hero-shift {
+  background-size: 180% 180%;
+  animation: hero-shift 18s ease-in-out infinite alternate;
 }
 
 .login-texture {
@@ -271,11 +366,13 @@
   background-image:
     radial-gradient(ellipse at 50% 0%, rgba(217, 152, 58, 0.16), transparent 52%),
     radial-gradient(circle at 12% 88%, rgba(75, 46, 26, 0.07), transparent 42%),
-    repeating-linear-gradient(
-      -18deg,
-      rgba(75, 46, 26, 0.035) 0 1px,
-      transparent 1px 14px
-    );
+    repeating-linear-gradient(-18deg, rgba(75, 46, 26, 0.035) 0 1px, transparent 1px 14px);
+}
+
+.dark .login-texture {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(232, 170, 76, 0.12), transparent 52%),
+    repeating-linear-gradient(-18deg, rgba(246, 236, 218, 0.04) 0 1px, transparent 1px 14px);
 }
 
 .fade-up-stagger > * {
