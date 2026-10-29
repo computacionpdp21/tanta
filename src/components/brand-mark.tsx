@@ -4,57 +4,46 @@ interface BrandMarkProps {
   className?: string;
   showWordmark?: boolean;
   compact?: boolean;
+  size?: "sm" | "md" | "lg";
 }
+
+const SIZES = {
+  sm: "size-10",
+  md: "size-[52px]",
+  lg: "size-28",
+} as const;
 
 export function BrandMark({
   className,
   showWordmark = true,
   compact = false,
+  size,
 }: BrandMarkProps) {
+  const resolved = size ?? (compact ? "sm" : "md");
+
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <span
+      <img
+        src="/logo.png"
+        alt=""
+        width={resolved === "lg" ? 112 : resolved === "sm" ? 40 : 52}
+        height={resolved === "lg" ? 112 : resolved === "sm" ? 40 : 52}
         className={cn(
-          "flex shrink-0 items-center justify-center rounded-2xl bg-primary shadow-sm",
-          compact ? "size-9" : "size-11",
+          "shrink-0 rounded-full bg-[#f3e6cf] object-cover shadow-sm ring-2 ring-white/70",
+          SIZES[resolved],
         )}
-        aria-hidden="true"
-      >
-        <svg
-          viewBox="0 0 64 64"
-          className={compact ? "size-6" : "size-7"}
-          fill="none"
-        >
-          <path
-            d="M18 40c0-10 6.5-18 14-18s14 8 14 18"
-            stroke="currentColor"
-            className="text-primary-foreground"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-          <path
-            d="M22 40c1.5-7 5-12.5 10-12.5S40.5 33 42 40"
-            stroke="currentColor"
-            className="text-accent"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-          <circle cx="32" cy="22" r="3.2" className="fill-accent" />
-          <path
-            d="M16 44h32"
-            stroke="currentColor"
-            className="text-primary-foreground"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-        </svg>
-      </span>
+      />
       {showWordmark ? (
         <span className="min-w-0">
-          <span className="font-display block truncate text-lg leading-tight font-semibold tracking-tight">
+          <span
+            className={cn(
+              "font-display block truncate leading-tight font-semibold tracking-tight",
+              resolved === "lg" ? "text-2xl" : "text-lg",
+            )}
+          >
             Panadería Janeth
           </span>
-          <span className="text-muted-foreground block text-xs font-medium tracking-wide uppercase">
+          <span className="block text-xs font-medium tracking-[0.18em] uppercase opacity-70">
             Pedidos
           </span>
         </span>

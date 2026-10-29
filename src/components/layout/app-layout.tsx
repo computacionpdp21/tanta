@@ -14,7 +14,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 const TITLES: Record<string, { title: string; description: string }> = {
   "/pedidos": {
     title: "Pedidos",
-    description: "Hoy y mañana primero; los atrasados se marcan en rojo.",
+    description: "Lista del día, producción y saldos por cobrar.",
   },
   "/pedidos/nuevo": {
     title: "Nuevo pedido",

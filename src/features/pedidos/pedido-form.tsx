@@ -207,7 +207,7 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
       setSavedItems(items);
       setSaved(result);
       form.reset(data);
-      toast.success(`Pedido ${result.numero_formateado} guardado`);
+      toast.success(`✅ Pedido ${result.numero_formateado} guardado`);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "No se pudo guardar el pedido");
     }
@@ -274,99 +274,9 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
           </div>
         </section>
 
-        <section className="bg-card space-y-4 rounded-2xl border p-4">
-          <h2 className="font-display text-lg font-semibold">Entrega</h2>
-          <Controller
-            control={form.control}
-            name="tipo_entrega"
-            render={({ field }) => (
-              <div className="grid grid-cols-2 gap-2">
-                {(["recojo", "envio"] as const).map((tipo) => (
-                  <button
-                    key={tipo}
-                    type="button"
-                    onClick={() => field.onChange(tipo)}
-                    className={cn(
-                      "min-h-14 rounded-2xl border-2 px-3 text-sm font-semibold",
-                      field.value === tipo
-                        ? "border-primary bg-secondary text-secondary-foreground"
-                        : "border-border bg-background",
-                    )}
-                  >
-                    {tipo === "recojo" ? "Recojo en tienda" : "Envío"}
-                  </button>
-                ))}
-              </div>
-            )}
-          />
-          {values.tipo_entrega === "envio" ? (
-            <>
-              <div className="space-y-2">
-                <Label htmlFor="direccion">Dirección</Label>
-                <Textarea
-                  id="direccion"
-                  placeholder="Calle, zona, número"
-                  {...form.register("direccion")}
-                  aria-describedby="direccion-error"
-                />
-                <FieldError id="direccion-error" message={form.formState.errors.direccion?.message} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="referencia_ubicacion">Referencia o link de Maps</Label>
-                <Input
-                  id="referencia_ubicacion"
-                  placeholder="Frente al mercado, o https://maps.app.goo.gl/…"
-                  {...form.register("referencia_ubicacion")}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="costo_envio">Costo de envío (Bs)</Label>
-                <Input
-                  id="costo_envio"
-                  type="number"
-                  inputMode="decimal"
-                  step="0.5"
-                  min="0"
-                  {...form.register("costo_envio")}
-                />
-              </div>
-            </>
-          ) : null}
-
-          <div className="space-y-2">
-            <Label>Fecha de entrega</Label>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { label: "Hoy", value: fechaConOffset(0) },
-                { label: "Mañana", value: fechaConOffset(1) },
-                { label: "Pasado", value: fechaConOffset(2) },
-              ].map((atajo) => (
-                <Button
-                  key={atajo.label}
-                  type="button"
-                  variant={values.fecha_entrega === atajo.value ? "default" : "outline"}
-                  onClick={() => form.setValue("fecha_entrega", atajo.value, { shouldDirty: true })}
-                >
-                  {atajo.label}
-                </Button>
-              ))}
-            </div>
-            <Input type="date" {...form.register("fecha_entrega")} aria-describedby="fecha-error" />
-            <FieldError id="fecha-error" message={form.formState.errors.fecha_entrega?.message} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="hora_entrega">Hora</Label>
-            <Input id="hora_entrega" type="time" {...form.register("hora_entrega")} />
-            <FieldError
-              id="hora-error"
-              message={form.formState.errors.hora_entrega?.message}
-            />
-          </div>
-        </section>
-
         <section className="space-y-3">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="font-display text-lg font-semibold">Ítems</h2>
+            <h2 className="font-display text-lg font-semibold">Productos</h2>
             <Button type="button" variant="outline" onClick={() => append({ ...ITEM_VACIO })}>
               <Plus className="size-4" />
               Agregar ítem
@@ -388,7 +298,7 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
             const filaSubtotal =
               Number(item?.cantidad || 0) * Number(item?.precio_unitario || 0);
             return (
-              <div key={field.id} className="bg-card space-y-3 rounded-2xl border p-4">
+              <div key={field.id} className="lift-card bg-card space-y-3 rounded-2xl border p-4">
                 <div className="space-y-2">
                   <Label>Producto</Label>
                   <Button
@@ -502,7 +412,97 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
         </section>
 
         <section className="bg-card space-y-4 rounded-2xl border p-4">
-          <h2 className="font-display text-lg font-semibold">Pago y notas</h2>
+          <h2 className="font-display text-lg font-semibold">Entrega</h2>
+          <Controller
+            control={form.control}
+            name="tipo_entrega"
+            render={({ field }) => (
+              <div className="grid grid-cols-2 gap-2">
+                {(["recojo", "envio"] as const).map((tipo) => (
+                  <button
+                    key={tipo}
+                    type="button"
+                    onClick={() => field.onChange(tipo)}
+                    className={cn(
+                      "min-h-14 rounded-2xl border-2 px-3 text-sm font-semibold",
+                      field.value === tipo
+                        ? "border-primary bg-secondary text-secondary-foreground"
+                        : "border-border bg-background",
+                    )}
+                  >
+                    {tipo === "recojo" ? "Recojo en tienda" : "Envío"}
+                  </button>
+                ))}
+              </div>
+            )}
+          />
+          {values.tipo_entrega === "envio" ? (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="direccion">Dirección</Label>
+                <Textarea
+                  id="direccion"
+                  placeholder="Calle, zona, número"
+                  {...form.register("direccion")}
+                  aria-describedby="direccion-error"
+                />
+                <FieldError id="direccion-error" message={form.formState.errors.direccion?.message} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="referencia_ubicacion">Referencia o link de Maps</Label>
+                <Input
+                  id="referencia_ubicacion"
+                  placeholder="Frente al mercado, o https://maps.app.goo.gl/…"
+                  {...form.register("referencia_ubicacion")}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="costo_envio">Costo de envío (Bs)</Label>
+                <Input
+                  id="costo_envio"
+                  type="number"
+                  inputMode="decimal"
+                  step="0.5"
+                  min="0"
+                  {...form.register("costo_envio")}
+                />
+              </div>
+            </>
+          ) : null}
+
+          <div className="space-y-2">
+            <Label>Fecha de entrega</Label>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { label: "Hoy", value: fechaConOffset(0) },
+                { label: "Mañana", value: fechaConOffset(1) },
+                { label: "Pasado", value: fechaConOffset(2) },
+              ].map((atajo) => (
+                <Button
+                  key={atajo.label}
+                  type="button"
+                  variant={values.fecha_entrega === atajo.value ? "default" : "outline"}
+                  onClick={() => form.setValue("fecha_entrega", atajo.value, { shouldDirty: true })}
+                >
+                  {atajo.label}
+                </Button>
+              ))}
+            </div>
+            <Input type="date" {...form.register("fecha_entrega")} aria-describedby="fecha-error" />
+            <FieldError id="fecha-error" message={form.formState.errors.fecha_entrega?.message} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="hora_entrega">Hora</Label>
+            <Input id="hora_entrega" type="time" {...form.register("hora_entrega")} />
+            <FieldError
+              id="hora-error"
+              message={form.formState.errors.hora_entrega?.message}
+            />
+          </div>
+        </section>
+
+        <section className="bg-card space-y-4 rounded-2xl border p-4">
+          <h2 className="font-display text-lg font-semibold">Pago</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="adelanto">Adelanto (Bs)</Label>
@@ -582,6 +582,7 @@ export function PedidoForm({ pedido = null }: PedidoFormProps) {
           </dl>
           <Button
             type="button"
+            variant="accent"
             size="lg"
             className="w-full sm:w-auto"
             disabled={guardar.isPending}

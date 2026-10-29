@@ -14,7 +14,10 @@ export function LiveIndicator({ estado }: { estado: EstadoRealtime }) {
       title={enVivo ? "Conectado en tiempo real" : "Reconectando al servidor"}
     >
       <span
-        className={cn("size-1.5 rounded-full", enVivo ? "bg-emerald-600" : "bg-amber-500 animate-pulse")}
+        className={cn(
+          "size-1.5 rounded-full",
+          enVivo ? "bg-emerald-600 live-dot" : "bg-amber-500 animate-pulse",
+        )}
         aria-hidden="true"
       />
       {enVivo ? "En vivo" : "Reconectando…"}

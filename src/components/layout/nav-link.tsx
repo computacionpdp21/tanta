@@ -62,7 +62,7 @@ export function AppNavLink({
         cn(
           "flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors",
           isActive
-            ? "bg-primary text-primary-foreground shadow-sm"
+            ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm"
             : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
         )
       }

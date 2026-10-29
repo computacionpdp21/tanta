@@ -46,24 +46,24 @@ export const ESTADO_STYLES: Record<
   { className: string; dotClassName: string }
 > = {
   pendiente: {
-    className: "bg-amber-100 text-amber-900 dark:bg-amber-400/20 dark:text-amber-200",
-    dotClassName: "bg-amber-500",
+    className: "bg-blue-100 text-blue-800 dark:bg-blue-400/20 dark:text-blue-200",
+    dotClassName: "bg-[#3B82F6]",
   },
   en_produccion: {
-    className: "bg-sky-100 text-sky-900 dark:bg-sky-400/20 dark:text-sky-200",
-    dotClassName: "bg-sky-600",
+    className: "bg-amber-100 text-amber-900 dark:bg-amber-400/20 dark:text-amber-200",
+    dotClassName: "bg-[#D9983A]",
   },
   listo: {
     className: "bg-emerald-100 text-emerald-900 dark:bg-emerald-400/20 dark:text-emerald-200",
-    dotClassName: "bg-emerald-600",
+    dotClassName: "bg-[#2E9E5B]",
   },
   entregado: {
-    className: "bg-emerald-800 text-emerald-50 dark:bg-emerald-700 dark:text-emerald-50",
-    dotClassName: "bg-emerald-900 dark:bg-emerald-400",
+    className: "bg-stone-200 text-stone-700 dark:bg-stone-500/30 dark:text-stone-200",
+    dotClassName: "bg-[#8B7B6B]",
   },
   cancelado: {
     className: "bg-red-100 text-red-800 dark:bg-red-400/20 dark:text-red-200",
-    dotClassName: "bg-red-600",
+    dotClassName: "bg-[#C0392B]",
   },
 };
 

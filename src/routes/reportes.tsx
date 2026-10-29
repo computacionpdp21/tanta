@@ -21,6 +21,7 @@ import { exportarReporte, useReporte } from "@/hooks/use-reporte";
 import { descargarCsv } from "@/lib/csv";
 import { formatFecha, formatHora, toDateInputValue } from "@/lib/dates";
 import { formatBs, waMeUrl } from "@/lib/formatters";
+import { prepararWhatsApp } from "@/lib/whatsapp";
 import { rangoDePeriodo, type TipoPeriodo } from "@/lib/periodos";
 
 const PERIODOS: Array<{ id: TipoPeriodo; label: string }> = [
@@ -297,14 +298,26 @@ export function ReportesPage() {
                       {formatFecha(pedido.fecha_entrega, "d MMM")} {formatHora(pedido.hora_entrega)}
                     </td>
                     <td className="px-3 py-3">
-                      <EstadoBadge estado={pedido.estado} />
+                      <EstadoBadge estado={pedido.estado} saldo={pedido.saldo} />
                     </td>
                     <td className="text-accent px-3 py-3 text-right font-semibold">
                       {formatBs(pedido.saldo)}
                     </td>
                     <td className="px-3 py-3 no-print">
-                      <Button asChild variant="outline" size="sm">
-                        <a href={waMeUrl(pedido.cliente_telefono)} target="_blank" rel="noreferrer">
+                      <Button asChild variant="whatsapp" size="sm">
+                        <a
+                          href={waMeUrl(
+                            pedido.cliente_telefono,
+                            `🥖 *Panadería Janeth* – Pedido ${pedido.numero_formateado}\nSaldo a cobrar: ${formatBs(pedido.saldo)}`,
+                          )}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={() =>
+                            prepararWhatsApp(
+                              `🥖 *Panadería Janeth* – Pedido ${pedido.numero_formateado}\nSaldo a cobrar: ${formatBs(pedido.saldo)}`,
+                            )
+                          }
+                        >
                           <MessageCircle className="size-4" />
                           WhatsApp
                         </a>

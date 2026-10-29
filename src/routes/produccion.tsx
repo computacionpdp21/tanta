@@ -47,12 +47,19 @@ function Consolidado({
           unidades
         </span>
       </p>
+      <div className="grid gap-3 sm:grid-cols-2">
       {grupos.map((grupo) => (
-        <div key={grupo.nombre}>
+        <div
+          key={grupo.nombre}
+          className={cn(
+            "rounded-2xl border p-4",
+            cocina ? "border-amber-500/40 bg-zinc-900" : "bg-secondary/40",
+          )}
+        >
           <p className={cn("font-display font-semibold", cocina ? "text-3xl" : "text-xl")}>
             {grupo.nombre}
           </p>
-          <p className={cn("mt-1 flex flex-wrap gap-x-4 gap-y-1", cocina ? "text-2xl" : "text-lg")}>
+          <p className={cn("mt-2 flex flex-wrap gap-x-4 gap-y-1", cocina ? "text-2xl" : "text-lg")}>
             {grupo.tamanos.map((tamano) => (
               <span key={tamano.tamano}>
                 <span className="text-muted-foreground">{tamano.tamano}</span>{" "}
@@ -64,6 +71,7 @@ function Consolidado({
           </p>
         </div>
       ))}
+      </div>
       {otros.length > 0 ? (
         <div>
           <p className={cn("font-display font-semibold", cocina ? "text-3xl" : "text-xl")}>
@@ -105,8 +113,8 @@ function DesglosePedido({
   return (
     <article
       className={cn(
-        "rounded-2xl border p-4",
-        cocina ? "border-amber-500/40 bg-zinc-900" : "bg-card",
+        "lift-card rounded-2xl border p-4",
+        cocina ? "border-amber-500/40 bg-zinc-900" : "bg-card shadow-sm",
       )}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">

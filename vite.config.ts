@@ -10,16 +10,16 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "prompt",
-      includeAssets: ["logo.svg", "apple-touch-icon.png", "icons/*.png"],
+      includeAssets: ["logo.png", "logo.svg", "apple-touch-icon.png", "icons/*.png"],
       manifest: {
-        name: "Panadería Janeth – Pedidos",
+        name: "Panadería Janeth",
         short_name: "Janeth",
         description: "Pedidos de tantawawas y panadería de Santa Cruz",
         lang: "es",
         display: "standalone",
         orientation: "any",
-        theme_color: "#7A4A21",
-        background_color: "#FFF8EE",
+        theme_color: "#4B2E1A",
+        background_color: "#FBF5E9",
         start_url: "/",
         scope: "/",
         icons: [

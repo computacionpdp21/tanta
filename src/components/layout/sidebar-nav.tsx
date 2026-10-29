@@ -35,7 +35,7 @@ export function SidebarNav() {
         ) : null}
       </nav>
       <div className="mt-auto space-y-2 p-4">
-        <div className="bg-card/70 flex items-center justify-between gap-2 rounded-xl px-3 py-2">
+        <div className="bg-card text-card-foreground flex items-center justify-between gap-2 rounded-xl px-3 py-2">
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">{perfil?.nombre}</p>
             {rol ? (

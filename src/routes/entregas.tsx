@@ -15,6 +15,7 @@ import { useCambiarEstado } from "@/hooks/use-pedidos";
 import { formatFechaLarga, formatHora, toDateInputValue } from "@/lib/dates";
 import { puedeCambiarEstado } from "@/lib/estados";
 import { formatBs, mapsUrl, telUrl, waMeUrl } from "@/lib/formatters";
+import { generarTextoWhatsApp, pedidoParaWhatsApp, prepararWhatsApp } from "@/lib/whatsapp";
 import { puede, ROLES_COBRAR } from "@/lib/permisos";
 import { cn } from "@/lib/utils";
 import type { PedidoConTotales, PedidoItem } from "@/types/database";
@@ -46,11 +47,12 @@ function TarjetaEntrega({
     pedido.tipo_entrega === "envio" && pedido.direccion
       ? mapsUrl(pedido.direccion, pedido.referencia_ubicacion)
       : null;
+  const textoWhatsApp = generarTextoWhatsApp(pedidoParaWhatsApp(pedido, items));
 
   return (
     <article
       className={cn(
-        "print-card rounded-2xl border p-4 shadow-sm",
+        "print-card lift-card rounded-2xl border p-4 shadow-sm",
         listo && "border-emerald-500 bg-emerald-50/60 dark:bg-emerald-950/20",
         !listo && !entregado && "border-amber-400/80 bg-amber-50/50 dark:bg-amber-950/20",
         entregado && "opacity-80",
@@ -63,13 +65,17 @@ function TarjetaEntrega({
           </p>
           <p className="text-muted-foreground text-sm">{formatHora(pedido.hora_entrega)}</p>
         </div>
-        <EstadoBadge estado={pedido.estado} />
+        <EstadoBadge estado={pedido.estado} saldo={pedido.saldo} />
       </div>
       <p className="mt-2 text-sm">{resumenItems(items)}</p>
       {pedido.direccion ? <p className="mt-1 text-sm">{pedido.direccion}</p> : null}
-      <p className={cn("mt-2 text-lg font-bold", pedido.saldo > 0 ? "text-accent" : "text-success")}>
-        Saldo {formatBs(pedido.saldo)}
-      </p>
+      {pedido.saldo > 0 ? (
+        <p className="mt-2 rounded-xl bg-orange-100 px-3 py-2 text-sm font-semibold text-orange-900 dark:bg-orange-400/20 dark:text-orange-200">
+          El cliente aún debe {formatBs(pedido.saldo)}
+        </p>
+      ) : (
+        <p className="text-success mt-2 text-lg font-bold">Saldo {formatBs(pedido.saldo)}</p>
+      )}
       <div className="mt-3 flex flex-wrap gap-2">
         <Button asChild variant="outline" size="sm">
           <a href={telUrl(pedido.cliente_telefono)}>
@@ -77,8 +83,13 @@ function TarjetaEntrega({
             Llamar
           </a>
         </Button>
-        <Button asChild variant="outline" size="sm">
-          <a href={waMeUrl(pedido.cliente_telefono)} target="_blank" rel="noreferrer">
+        <Button asChild variant="whatsapp" size="sm">
+          <a
+            href={waMeUrl(pedido.cliente_telefono, textoWhatsApp)}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => prepararWhatsApp(textoWhatsApp)}
+          >
             <MessageCircle className="size-4" />
             WhatsApp
           </a>

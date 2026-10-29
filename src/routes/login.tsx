@@ -57,20 +57,20 @@ export function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center px-4 py-10">
+    <div className="login-texture relative flex min-h-dvh flex-col items-center justify-center px-4 py-10">
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
       <div className="mx-auto w-full max-w-md">
         <div className="mb-8 flex flex-col items-center text-center">
-          <BrandMark className="flex-col justify-center gap-4 text-center" />
+          <BrandMark size="lg" className="flex-col justify-center gap-4 text-center" />
           <p className="text-muted-foreground mt-4 max-w-xs text-sm leading-relaxed">
             Pedidos de tantawawas y panadería · Santa Cruz de la Sierra
           </p>
         </div>
 
         <form
-          className="bg-card space-y-4 rounded-3xl border p-6 shadow-md"
+          className="bg-card space-y-4 rounded-3xl border p-6 shadow-warm"
           onSubmit={onSubmit}
           noValidate
         >
@@ -131,7 +131,7 @@ export function LoginPage() {
 
           {error ? <FieldError id="login-error" message={error} /> : null}
 
-          <Button type="submit" className="w-full" size="lg" disabled={submitting || !isConfigured}>
+          <Button type="submit" variant="accent" className="w-full" size="lg" disabled={submitting || !isConfigured}>
             {submitting ? (
               <>
                 <LoaderCircle className="size-4 animate-spin" />

@@ -17,10 +17,12 @@ export function formatTelefonoBolivia(telefono: string): string {
   return telefono;
 }
 
-export function waMeUrl(telefono: string): string {
+export function waMeUrl(telefono: string, texto?: string): string {
   const digits = telefono.replace(/\D/g, "");
   const withCountry = digits.startsWith("591") ? digits : `591${digits}`;
-  return `https://wa.me/${withCountry}`;
+  const mensaje = texto?.trim();
+  if (!mensaje) return `https://wa.me/${withCountry}`;
+  return `https://api.whatsapp.com/send/?phone=${withCountry}&text=${encodeURIComponent(mensaje)}&type=phone_number&app_absent=0`;
 }
 
 export function telUrl(telefono: string): string {

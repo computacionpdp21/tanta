@@ -30,7 +30,10 @@ export function SignOutButton({ className, variant = "sidebar" }: SignOutButtonP
     <Button
       type="button"
       variant="ghost"
-      className={cn("text-muted-foreground h-11 w-full justify-start gap-2 px-3", className)}
+      className={cn(
+        "h-11 w-full justify-start gap-2 px-3 text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        className,
+      )}
       onClick={onClick}
     >
       <LogOut className="size-4" />

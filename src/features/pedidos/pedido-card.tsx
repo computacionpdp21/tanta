@@ -1,11 +1,13 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
 import { EstadoBadge } from "@/components/estado-badge";
+import { ItemChips } from "@/components/item-chips";
 import { Button } from "@/components/ui/button";
 import { TIPO_ENTREGA_LABELS } from "@/lib/constants";
 import { esAtrasado, formatFecha, formatHora } from "@/lib/dates";
 import { formatBs, waMeUrl } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { generarTextoWhatsApp, prepararWhatsApp } from "@/lib/whatsapp";
 import type { PedidoConTotales } from "@/types/database";
 
 interface PedidoCardProps {
@@ -15,20 +17,22 @@ interface PedidoCardProps {
 
 export function PedidoCard({ pedido, className }: PedidoCardProps) {
   const atrasado = esAtrasado(pedido.fecha_entrega, pedido.estado);
+  const textoWhatsApp = generarTextoWhatsApp(pedido);
+  const hrefWhatsApp = waMeUrl(pedido.cliente_telefono, textoWhatsApp);
 
   return (
     <article
       className={cn(
-        "bg-card rounded-2xl border p-4 shadow-sm",
+        "lift-card fade-up bg-card rounded-2xl border p-4 shadow-sm",
         atrasado ? "border-destructive ring-1 ring-destructive/30" : "border-border/80",
         className,
       )}
     >
       <div className="flex items-start justify-between gap-3">
-        <Link to={`/pedidos/${pedido.id}`} className="min-w-0 flex-1">
+        <a href={`/pedidos/${pedido.id}`} className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <p className="font-display text-lg font-semibold">{pedido.numero_formateado}</p>
-            <EstadoBadge estado={pedido.estado} />
+            <EstadoBadge estado={pedido.estado} saldo={pedido.saldo} />
             {atrasado ? (
               <span className="rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-semibold text-red-800 dark:bg-red-400/20 dark:text-red-200">
                 Atrasado
@@ -41,11 +45,22 @@ export function PedidoCard({ pedido, className }: PedidoCardProps) {
             {TIPO_ENTREGA_LABELS[pedido.tipo_entrega]}
           </p>
           {pedido.items_resumen ? (
-            <p className="mt-2 text-sm leading-snug">{pedido.items_resumen}</p>
+            <ItemChips resumen={pedido.items_resumen} className="mt-2" />
           ) : null}
-        </Link>
-        <Button asChild variant="outline" size="icon" className="shrink-0" aria-label="WhatsApp">
-          <a href={waMeUrl(pedido.cliente_telefono)} target="_blank" rel="noreferrer">
+        </a>
+        <Button
+          asChild
+          variant="whatsapp"
+          size="icon"
+          className="shrink-0"
+          aria-label="WhatsApp"
+        >
+          <a
+            href={hrefWhatsApp}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => prepararWhatsApp(textoWhatsApp)}
+          >
             <MessageCircle className="size-5" />
           </a>
         </Button>
@@ -57,7 +72,7 @@ export function PedidoCard({ pedido, className }: PedidoCardProps) {
         </div>
         <div className="text-right">
           <p className="text-muted-foreground text-xs">Saldo</p>
-          <p className={cn("font-semibold", pedido.saldo > 0 ? "text-accent" : "text-success")}>
+          <p className={cn("font-semibold", pedido.saldo > 0 ? "text-destructive" : "text-success")}>
             {formatBs(pedido.saldo)}
           </p>
         </div>
@@ -67,41 +82,52 @@ export function PedidoCard({ pedido, className }: PedidoCardProps) {
 }
 
 export function PedidoRow({ pedido }: { pedido: PedidoConTotales }) {
+  const navigate = useNavigate();
   const atrasado = esAtrasado(pedido.fecha_entrega, pedido.estado);
+  const textoWhatsApp = generarTextoWhatsApp(pedido);
+  const hrefWhatsApp = waMeUrl(pedido.cliente_telefono, textoWhatsApp);
+
   return (
-    <tr className={cn("border-b last:border-0", atrasado && "bg-red-50/70 dark:bg-red-950/20")}>
+    <tr
+      className={cn(
+        "hover:bg-secondary/50 cursor-pointer border-b last:border-0 transition-colors",
+        atrasado && "bg-red-50/70 dark:bg-red-950/20",
+      )}
+      onClick={() => navigate(`/pedidos/${pedido.id}`)}
+    >
       <td className="px-3 py-3">
-        <Link to={`/pedidos/${pedido.id}`} className="font-semibold hover:underline">
-          {pedido.numero_formateado}
-        </Link>
+        <span className="font-semibold">{pedido.numero_formateado}</span>
         {atrasado ? (
           <span className="ml-2 text-[11px] font-semibold text-red-700">Atrasado</span>
         ) : null}
       </td>
-      <td className="px-3 py-3">{pedido.cliente_nombre}</td>
+      <td className="px-3 py-3 font-medium">{pedido.cliente_nombre}</td>
       <td className="px-3 py-3 whitespace-nowrap">
         {formatFecha(pedido.fecha_entrega, "d MMM")} {formatHora(pedido.hora_entrega)}
       </td>
       <td className="px-3 py-3">{TIPO_ENTREGA_LABELS[pedido.tipo_entrega]}</td>
-      <td className="text-muted-foreground max-w-xs truncate px-3 py-3 text-sm">
-        {pedido.items_resumen}
+      <td className="max-w-xs px-3 py-3">
+        <ItemChips resumen={pedido.items_resumen} />
       </td>
       <td className="px-3 py-3 text-right font-medium">{formatBs(pedido.total)}</td>
-      <td className={cn("px-3 py-3 text-right font-semibold", pedido.saldo > 0 && "text-accent")}>
+      <td className={cn("px-3 py-3 text-right font-semibold", pedido.saldo > 0 && "text-destructive")}>
         {formatBs(pedido.saldo)}
       </td>
       <td className="px-3 py-3">
-        <EstadoBadge estado={pedido.estado} />
+        <EstadoBadge estado={pedido.estado} saldo={pedido.saldo} />
       </td>
-      <td className="px-3 py-3">
-        <a
-          href={waMeUrl(pedido.cliente_telefono)}
-          target="_blank"
-          rel="noreferrer"
-          className="text-primary text-sm font-semibold hover:underline"
-        >
-          WhatsApp
-        </a>
+      <td className="px-3 py-3" onClick={(event) => event.stopPropagation()}>
+        <Button asChild variant="whatsapp" size="sm">
+          <a
+            href={hrefWhatsApp}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => prepararWhatsApp(textoWhatsApp)}
+          >
+            <MessageCircle className="size-4" />
+            WhatsApp
+          </a>
+        </Button>
       </td>
     </tr>
   );

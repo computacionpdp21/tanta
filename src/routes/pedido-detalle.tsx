@@ -23,7 +23,7 @@ import {
 } from "@/lib/estados";
 import { formatBs, formatTelefonoBolivia, mapsUrl, telUrl, waMeUrl } from "@/lib/formatters";
 import { puede, ROLES_COBRAR } from "@/lib/permisos";
-import { generarTextoWhatsApp } from "@/lib/whatsapp";
+import { generarTextoWhatsApp, prepararWhatsApp } from "@/lib/whatsapp";
 
 export function PedidoDetallePage() {
   const { id } = useParams();
@@ -33,11 +33,13 @@ export function PedidoDetallePage() {
   const [cobroAbierto, setCobroAbierto] = useState(false);
   const [cancelarAbierto, setCancelarAbierto] = useState(false);
 
+  const textoWhatsApp = data ? generarTextoWhatsApp(data) : "";
+
   async function copiar() {
-    if (!data) return;
+    if (!textoWhatsApp) return;
     try {
-      await navigator.clipboard.writeText(generarTextoWhatsApp(data));
-      toast.success("Resumen copiado. Pégalo en WhatsApp.");
+      await navigator.clipboard.writeText(textoWhatsApp);
+      toast.success("Texto copiado. Ya lo puedes pegar donde quieras.");
     } catch {
       toast.error("No se pudo copiar.");
     }
@@ -105,11 +107,22 @@ export function PedidoDetallePage() {
       <div className="flex flex-wrap items-center justify-between gap-3 no-print">
         <div className="flex items-center gap-2">
           <h2 className="font-display text-2xl font-semibold">{data.numero_formateado}</h2>
-          <EstadoBadge estado={data.estado} />
+          <EstadoBadge estado={data.estado} saldo={data.saldo} />
         </div>
         <div className="flex flex-wrap gap-2">
+          <Button asChild variant="whatsapp">
+            <a
+              href={waMeUrl(data.cliente_telefono, textoWhatsApp)}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => prepararWhatsApp(textoWhatsApp)}
+            >
+              <MessageCircle className="size-4" />
+              Enviar por WhatsApp
+            </a>
+          </Button>
           <Button type="button" variant="outline" onClick={() => void copiar()}>
-            Copiar para WhatsApp
+            Copiar texto
           </Button>
           <Button type="button" variant="outline" onClick={() => window.print()}>
             <Printer className="size-4" />
@@ -149,8 +162,13 @@ export function PedidoDetallePage() {
                 Llamar
               </a>
             </Button>
-            <Button asChild variant="outline">
-              <a href={waMeUrl(data.cliente_telefono)} target="_blank" rel="noreferrer">
+            <Button asChild variant="whatsapp">
+              <a
+                href={waMeUrl(data.cliente_telefono, textoWhatsApp)}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => prepararWhatsApp(textoWhatsApp)}
+              >
                 <MessageCircle className="size-4" />
                 WhatsApp
               </a>

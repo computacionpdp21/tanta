@@ -13,8 +13,10 @@ type WhatsAppPedido = Pick<
   | "adelanto"
   | "total"
   | "saldo"
-  | "items"
->;
+> & {
+  items?: PedidoItem[];
+  items_resumen?: string;
+};
 
 function lineaItem(item: PedidoItem): string {
   const unitario = formatBs(item.precio_unitario);
@@ -23,17 +25,29 @@ function lineaItem(item: PedidoItem): string {
   return `• ${item.cantidad} x ${item.descripcion}${nota} – ${unitario} c/u = ${subtotal}`;
 }
 
+function lineasDesdeResumen(resumen: string): string[] {
+  return resumen
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => `• ${item.replace("×", "x")}`);
+}
+
 export function generarTextoWhatsApp(pedido: WhatsAppPedido): string {
   const fecha = formatFecha(pedido.fecha_entrega, "EEEE d/MM");
   const hora = pedido.hora_entrega ? ` a las ${formatHora(pedido.hora_entrega)}` : "";
   const tipo = TIPO_ENTREGA_LABELS[pedido.tipo_entrega];
+  const items =
+    pedido.items && pedido.items.length > 0
+      ? pedido.items.map(lineaItem)
+      : lineasDesdeResumen(pedido.items_resumen ?? "");
 
   return [
     `🥖 *Panadería Janeth* – Pedido ${pedido.numero_formateado}`,
     `Cliente: ${pedido.cliente_nombre}`,
     `Entrega: ${fecha}${hora} (${tipo})`,
     "",
-    ...pedido.items.map(lineaItem),
+    ...(items.length > 0 ? items : ["• (sin ítems)"]),
     "",
     `Total: ${formatBs(pedido.total)}`,
     `Adelanto: ${formatBs(pedido.adelanto)}`,
@@ -47,4 +61,8 @@ export function pedidoParaWhatsApp(
   items: PedidoItem[],
 ): WhatsAppPedido {
   return { ...pedido, items };
+}
+
+export function prepararWhatsApp(texto: string) {
+  void navigator.clipboard.writeText(texto).catch(() => undefined);
 }
