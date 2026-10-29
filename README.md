@@ -1,7 +1,7 @@
 # Panadería Janeth – Pedidos
 
 Sistema de pedidos para la panadería de Santa Cruz de la Sierra. Sirve para tomar pedidos (tantawawas y pan), ver qué hay que hornear, cobrar y entregar, sin papeles sueltos.
-
+   
 Moneda: **bolivianos (Bs)**. Zona horaria: **America/La_Paz**.
 
 ## Qué puede hacer cada persona
